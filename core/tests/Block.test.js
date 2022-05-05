@@ -1,6 +1,6 @@
-const {Block} = require("../Block")
-const {GENESIS_DATA, MINE_RATE} = require("../utils/config")
-const {cryptoHash} = require("../cryptoHash")
+const {Block} = require('../Block')
+const {GENESIS_DATA, MINE_RATE} = require('../../config')
+const {cryptoHash} = require('../../utils/cryptoHash')
 const hexToBinary = require('hex-to-binary')
 
 describe('Block', () => {
@@ -70,7 +70,7 @@ describe('Block', () => {
         .toEqual('0'.repeat(minedBlock.difficulty))
     })
 
-    it('adjusts the difficulty', () => {
+    it('adjusts the difficulty one step', () => {
       const possibleResults = [lastBlock.difficulty+1, lastBlock.difficulty-1]
 
       expect(possibleResults.includes(minedBlock.difficulty)).toBe(true)

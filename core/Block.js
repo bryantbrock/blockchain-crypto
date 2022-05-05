@@ -1,5 +1,5 @@
-const {GENESIS_DATA, MINE_RATE} = require("./utils/config")
-const {cryptoHash} = require("./cryptoHash")
+const {GENESIS_DATA, MINE_RATE} = require("../config")
+const {cryptoHash} = require("../utils/cryptoHash")
 const hexToBinary = require('hex-to-binary')
 
 class Block {
@@ -12,8 +12,6 @@ class Block {
     this.difficulty = difficulty
   }
 
-  // static allows you to not have
-  // to call constructor beforehand
   static genesis() {
     return new this(GENESIS_DATA)
   }
@@ -32,8 +30,8 @@ class Block {
       difficulty = Block.adjustDifficulty({originalBlock: lastBlock, timestamp})
       hash = cryptoHash(timestamp, lastHash, data, nonce, difficulty)
 
-    } while (hexToBinary(hash)
-      .substring(0, difficulty) !== '0'.repeat(difficulty)
+    } while (
+      hexToBinary(hash).substring(0, difficulty) !== ('0').repeat(difficulty)
     )
 
     return new this({hash, timestamp, lastHash, data, difficulty, nonce})

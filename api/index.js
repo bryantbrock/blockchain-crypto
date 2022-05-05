@@ -2,6 +2,7 @@ const express = require('express')
 const request = require('request')
 const bodyParser = require('body-parser')
 const {Blockchain} = require('../core/Blockchain')
+const {Pool} = require('../wallet/Pool')
 const {PubSub} = require('./redis')
 
 const app = express()
