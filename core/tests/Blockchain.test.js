@@ -31,7 +31,7 @@ describe('Blockchain', () => {
       it('returns false', () => {
         blockchain.chain[0] = {data: 'fake-block'}
 
-        expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
+        expect(Blockchain.isValidChain({chain: blockchain.chain})).toBe(false)
       })
     })
 
@@ -46,7 +46,7 @@ describe('Blockchain', () => {
         it('returns false', () => {
           blockchain.chain[2].lastHash = 'broken-lastHash'
 
-          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
+          expect(Blockchain.isValidChain({chain: blockchain.chain})).toBe(false)
         })
       })
 
@@ -54,7 +54,7 @@ describe('Blockchain', () => {
         it('returns false', () => {
           blockchain.chain[2].data = 'broken-data'
 
-          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
+          expect(Blockchain.isValidChain({chain: blockchain.chain})).toBe(false)
         })
       })
 
@@ -71,13 +71,13 @@ describe('Blockchain', () => {
 
           blockchain.chain.push(badBlock)
 
-          expect(Blockchain.isValidChain(blockchain.chain)).toBe(false)
+          expect(Blockchain.isValidChain({chain: blockchain.chain})).toBe(false)
         })
       })
 
       describe('and chain doesn\'t contain invalid blocks', () => {
         it('returns true', () => {
-          expect(Blockchain.isValidChain(blockchain.chain)).toBe(true)
+          expect(Blockchain.isValidChain({chain: blockchain.chain})).toBe(true)
         })
       })
     })
@@ -144,6 +144,18 @@ describe('Blockchain', () => {
         it('logs the chain replacement', () => {
           expect(logMock).toHaveBeenCalled()
         })
+      })
+    })
+
+    describe('and the `validateTransactions` flag is true', () => {
+      it('should call `validateTransactionDate` itself', () => {
+        const validateTransactionDataMock = jest.fn()
+
+        newChain.addBlock({data: 'foo'})
+        blockchain.validateTransactionData = validateTransactionDataMock
+        blockchain.replaceChain(newChain.chain, true)
+
+        expect(validateTransactionDataMock).toHaveBeenCalled()
       })
     })
   })

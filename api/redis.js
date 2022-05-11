@@ -27,6 +27,7 @@ class PubSub {
 
       this.blockchain.replaceChain(
         chain,
+        true,
         () => this.pool.clearBlockchainTransactions({chain})
       )
     }
